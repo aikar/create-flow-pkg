@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const util = require("./create-flow-pkg-util");
 const cmd = process.argv[2];
 let name = process.argv[3];

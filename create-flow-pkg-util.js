@@ -32,11 +32,12 @@ function getPkgFile() {
 function updatePackageJson(isLib = false) {
     let file = getPkgFile();
     const pkg = getPkg();
-    let changed = false;
+
+    pkg.main = isLib ? pkg.name + ".js" : "dist/" + pkg.name + ".js";
+
     if (!pkg.engines || !pkg.engines.node) {
         pkg.engines = pkg.engines || {};
         pkg.engines.node = ">= 6";
-        changed = true;
     }
 
     if (!pkg.scripts) {
@@ -45,42 +46,37 @@ function updatePackageJson(isLib = false) {
 
     if (!pkg.scripts.build) {
         pkg.scripts.build = "gulp build";
-        changed = true;
     }
 
     if (!pkg.scripts.test) {
         pkg.scripts.test = "jest";
-        changed = true;
     }
 
     if (!pkg.scripts.lint) {
         pkg.scripts.lint = "gulp lint";
-        changed = true;
     }
 
     if (!pkg.scripts.lint) {
         pkg.scripts.lint = "gulp lint";
-        changed = true;
     }
 
     if (!pkg.scripts.node) {
         pkg.scripts.node = "cross-env NODE_ENV=development build/devnode.js";
-        changed = true;
+    }
+
+    if (!pkg.scripts.start) {
+        pkg.scripts.start = "cross-env NODE_ENV=development build/devnode.js src/" + pkg.name + ".js";
     }
 
     if (!isLib && !pkg.scripts.prepublishOnly) {
         pkg.scripts.prepublishOnly = "mkdir -p dist/ && touch dist/.npmignore";
-        changed = true;
     }
 
     if (isLib && !pkg.scripts.postpack) {
         pkg.scripts.postpack = "build/postpack.sh";
-        changed = true;
     }
 
-    if (changed) {
-        fs.writeFileSync(file, JSON.stringify(pkg, null, 2));
-    }
+    fs.writeFileSync(file, JSON.stringify(pkg, null, 2));
 }
 
 function getDevDeps() {

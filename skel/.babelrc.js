@@ -3,7 +3,7 @@ const engines = require("./package.json").engines;
 const semver = require("semver");
 let minNode = 6;
 if (engines && engines.node) {
-    if (semver.satisfies(8, engines.node) && !semver.satisfies(6, engines.node)) {
+    if (semver.satisfies("8.0.0", engines.node) && !semver.satisfies("6.0.0", engines.node)) {
         minNode = 8;
     }
 }
@@ -13,7 +13,7 @@ module.exports = {
         ["env", {
             loose: true,
             modules: "commonjs",
-            useBuiltIns: true,
+            useBuiltIns: "entry",
             include: [],
             exclude: minNode >= 8 ? ["transform-async-to-generator", "transform-regenerator"] : [],
             targets: {

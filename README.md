@@ -1,4 +1,6 @@
 # create-flow-pkg
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/aikar/create-flow-pkg.svg)](https://greenkeeper.io/)
 Create a Facebook Flow ready skeleton library or application with Babel
 
 # What this does

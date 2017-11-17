@@ -12,7 +12,7 @@ do not need dist/ (Only for Libraries)
 A script for `yarn run node <script>` is provided that automatically runs a script with the transpilers such as babel.
 ## Install:
 ```sh
-sudo npm i create-react-pkg -g
+sudo npm i create-flow-pkg -g
 ```
 
 ## Usage:

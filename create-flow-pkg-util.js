@@ -32,8 +32,9 @@ function getPkgFile() {
 function updatePackageJson(isLib = false) {
     let file = getPkgFile();
     const pkg = getPkg();
+    const filename = pkg.name + ".js";
 
-    pkg.main = isLib ? pkg.name + ".js" : "dist/" + pkg.name + ".js";
+    pkg.main = isLib ? filename : "dist/" + filename;
 
     if (!pkg.engines || !pkg.engines.node) {
         pkg.engines = pkg.engines || {};
@@ -65,7 +66,16 @@ function updatePackageJson(isLib = false) {
     }
 
     if (!pkg.scripts.start) {
-        pkg.scripts.start = "cross-env NODE_ENV=development build/devnode.js src/" + pkg.name + ".js";
+
+        pkg.scripts.start = "cross-env NODE_ENV=development build/devnode.js src/" + filename;
+    }
+
+    if (!pkg.scripts.example) {
+        pkg.scripts.example = "cross-env NODE_ENV=development build/devnode.js example/" + filename;
+    }
+
+    if (!pkg.scripts.distexample) {
+        pkg.scripts.distexample = "cross-env NODE_ENV=development build/devnode.js example/" + filename + " --use-dist";
     }
 
     if (!isLib && !pkg.scripts.prepublishOnly) {
@@ -112,4 +122,6 @@ function cpSkeleton() {
     if (!fs.existsSync(targetExample))  {
         fs.renameSync(path.join("example", "skel.js"), targetExample);
     }
+    // write index.js stub
+    fs.writeFileSync(path.join("src", "index.js"), `module.exports = require("./"${filejs});\n`);
 }

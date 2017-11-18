@@ -29,7 +29,7 @@ function getPkgFile() {
     return path.resolve(process.cwd(), "./package.json");
 }
 
-function updatePackageJson(isLib = false) {
+function updatePackageJson(isLib = false, isBrowser = false) {
     let file = getPkgFile();
     const pkg = getPkg();
     const filename = pkg.name + ".js";
@@ -40,6 +40,8 @@ function updatePackageJson(isLib = false) {
         pkg.engines = pkg.engines || {};
         pkg.engines.node = ">= 6";
     }
+
+    pkg.browser = isBrowser;
 
     if (!pkg.scripts) {
         pkg.scripts = {};
@@ -54,11 +56,11 @@ function updatePackageJson(isLib = false) {
     }
 
     if (!pkg.scripts.lint) {
-        pkg.scripts.lint = "gulp lint";
+        pkg.scripts.lint = "gulp validate";
     }
 
     if (!pkg.scripts.lint) {
-        pkg.scripts.lint = "gulp lint";
+        pkg.scripts.lint = "gulp validate";
     }
 
     if (!pkg.scripts.node) {
@@ -66,8 +68,11 @@ function updatePackageJson(isLib = false) {
     }
 
     if (!pkg.scripts.start) {
-
-        pkg.scripts.start = "cross-env NODE_ENV=development build/devnode.js src/" + filename;
+        if (isLib) {
+            pkg.scripts.start = "npm run example";
+        } else {
+            pkg.scripts.start = "cross-env NODE_ENV=development build/devnode.js src/" + filename;
+        }
     }
 
     if (!pkg.scripts.example) {
@@ -75,7 +80,7 @@ function updatePackageJson(isLib = false) {
     }
 
     if (!pkg.scripts.distexample) {
-        pkg.scripts.distexample = "cross-env NODE_ENV=development build/devnode.js example/" + filename + " --use-dist";
+        pkg.scripts.distexample = "npm run build && cross-env NODE_ENV=development build/devnode.js example/" + filename + " --use-dist";
     }
 
     if (!isLib && !pkg.scripts.prepublishOnly) {

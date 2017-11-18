@@ -8,6 +8,7 @@ require('module-alias/register');
 process.execArgv.splice(1, 0, __filename);
 process.argv.splice(1, 1);
 
+global.isDevNode = true;
 global.devNodeUseDist = false;
 if (process.argv[2] === "--use-dist") {
     global.devNodeUseDist = true;

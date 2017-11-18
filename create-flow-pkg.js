@@ -19,7 +19,8 @@ switch (cmd) {
     case "initlib":
     case "initapp": {
         util.checkYarn();
-        util.updatePackageJson(cmd === "initlib");
+        const isLib = cmd === "initlib";
+        util.updatePackageJson(isLib, isLib && process.argv.contains("--browser"));
         util.installDevDeps();
         util.cpSkeleton();
         break;

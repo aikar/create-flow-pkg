@@ -32,7 +32,7 @@ create-flow-pkg initapp
 Currently expects yarn to be installed. Will add interactive setup to choose yarn vs npm later.
 
 ```sh
-sudp npm i yarn -g
+sudo npm i yarn -g
 ```
 
 ## Default node version

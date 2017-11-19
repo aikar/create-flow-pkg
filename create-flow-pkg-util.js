@@ -47,49 +47,30 @@ function updatePackageJson(isLib = false, isBrowser = false) {
         pkg.scripts = {};
     }
 
-    if (!pkg.scripts.build) {
-        pkg.scripts.build = "gulp build";
-    }
+    pkg.scripts.build = "gulp build";
+    pkg.scripts.test = "jest";
 
-    if (!pkg.scripts.test) {
-        pkg.scripts.test = "jest";
-    }
+    pkg.files = [
+        "dist", "LICENSE", "README.md"
+    ];
 
-    if (!pkg.scripts.lint) {
-        pkg.scripts.lint = "gulp validate";
-    }
+    pkg.scripts.lint = "gulp validate";
+    pkg.scripts.validate = "gulp validate";
+    pkg.scripts.node = "cross-env NODE_ENV=development build/devnode.js";
+    pkg.scripts.prepack = "npm run build";
 
-    if (!pkg.scripts.lint) {
-        pkg.scripts.lint = "gulp validate";
-    }
-
-    if (!pkg.scripts.node) {
-        pkg.scripts.node = "cross-env NODE_ENV=development build/devnode.js";
-    }
-
-    if (!pkg.scripts.start) {
-        if (isLib) {
-            pkg.scripts.start = "npm run example";
-        } else {
-            pkg.scripts.start = "cross-env NODE_ENV=development build/devnode.js src/" + filename;
-        }
-    }
-
-    if (!pkg.scripts.example) {
-        pkg.scripts.example = "cross-env NODE_ENV=development build/devnode.js example/" + filename;
-    }
-
-    if (!pkg.scripts.distexample) {
-        pkg.scripts.distexample = "npm run build && cross-env NODE_ENV=development build/devnode.js example/" + filename + " --use-dist";
-    }
-
-    if (!isLib && !pkg.scripts.prepublishOnly) {
-        pkg.scripts.prepublishOnly = "mkdir -p dist/ && touch dist/.npmignore";
-    }
-
-    if (isLib && !pkg.scripts.postpack) {
+    if (isLib) {
+        pkg.scripts.start = "npm run test";
         pkg.scripts.postpack = "build/postpack.sh";
+    } else {
+        pkg.scripts.start = "cross-env NODE_ENV=development build/devnode.js src/" + filename;
+
     }
+    pkg.scripts.example = "cross-env NODE_ENV=development build/devnode.js example/" + filename;
+    pkg.scripts.distexample = "npm run build && cross-env NODE_ENV=development build/devnode.js example/" + filename + " --use-dist";
+
+    pkg.scripts.prepublishOnly = "mkdir -p dist/ && touch dist/.npmignore";
+
 
     fs.writeFileSync(file, JSON.stringify(pkg, null, 2));
 }

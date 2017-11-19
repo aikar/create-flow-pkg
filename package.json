@@ -1,6 +1,6 @@
 {
   "name": "create-flow-pkg",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Create a Facebook Flow ready skeleton library or application with Babel",
   "main": "create-flow-pkg.js",
   "scripts": {

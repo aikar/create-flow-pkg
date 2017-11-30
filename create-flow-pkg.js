@@ -18,11 +18,16 @@ if (!name) {
 switch (cmd) {
     case "initlib":
     case "initapp": {
+        console.log("Checking for yarn");
         util.checkYarn();
         const isLib = cmd === "initlib";
+        console.log("Updating package.json");
         util.updatePackageJson(isLib, isLib && process.argv.indexOf("--browser") !== -1);
+        console.log("Installing Dev Deps");
         util.installDevDeps();
+        console.log("Copying Skeleton Files");
         util.cpSkeleton();
+        console.log("Done!");
         break;
     }
     default:

@@ -1,4 +1,5 @@
-const execSync = require("child_process").execSync;
+const cp = require("child_process");
+const execSync = cp.execSync;
 const path = require("path");
 const cmdExists = require("command-exists").sync;
 const escape = require("shell-escape");
@@ -87,7 +88,7 @@ function checkYarn() {
 }
 
 function installDevDeps() {
-    exec("yarn add -D " + Object.entries(getDevDeps()).map(([pkg, ver]) => pkg + "@" + ver).join(" "), "install dev deps");
+    cp.execSync("yarn add -D " + Object.entries(getDevDeps()).map(([pkg, ver]) => pkg + "@" + ver).join(" "), {stdio:[0,1,2]});
 }
 function cpSkeleton() {
     const pkg = getPkg();

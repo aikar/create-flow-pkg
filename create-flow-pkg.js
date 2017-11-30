@@ -20,7 +20,7 @@ switch (cmd) {
     case "initapp": {
         util.checkYarn();
         const isLib = cmd === "initlib";
-        util.updatePackageJson(isLib, isLib && process.argv.contains("--browser"));
+        util.updatePackageJson(isLib, isLib && process.argv.indexOf("--browser") !== -1);
         util.installDevDeps();
         util.cpSkeleton();
         break;

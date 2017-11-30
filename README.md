@@ -19,6 +19,10 @@ Provides the following `npm run <script>` commands:
   - `npm run build` - Runs babel to compile to dist folder for production readyness
   - `npm run test` - Runs Jest to run test suite
 
+## Requirements
+Currently only tested in Linux(Ubuntu/Mint) but should work in any POSIX environment,
+Windows users, run inside of Git Bash or WSL.
+
 ## Install:
 ```sh
 sudo npm i create-flow-pkg -g

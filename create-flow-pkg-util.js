@@ -96,7 +96,7 @@ function cpSkeleton() {
     const skelDir = path.resolve(__dirname, "skel");
     const files = fs.readdirSync(skelDir);
     for (const file of files) {
-        exec(`cp -ar ${escape([path.resolve(skelDir, file), "."])}`, `copying ${file}`);
+        exec(`/bin/cp -ar ${escape([path.resolve(skelDir, file), "."])}`, `copying ${file}`);
     }
     exec("mkdir -p .cache ; echo '*' > .cache/.gitignore", "prepare .cache");
 

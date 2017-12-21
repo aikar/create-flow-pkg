@@ -28,6 +28,7 @@ switch (cmd) {
         console.log("Copying Skeleton Files");
         util.cpSkeleton();
         console.log("Done!");
+        process.exit();
         break;
     }
     default:

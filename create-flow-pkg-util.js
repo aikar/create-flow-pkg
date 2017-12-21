@@ -4,6 +4,7 @@ const path = require("path");
 const cmdExists = require("command-exists").sync;
 const escape = require("shell-escape");
 const fs = require("fs");
+const shell = require("cash");
 
 module.exports = {
     installDevDeps,
@@ -14,12 +15,15 @@ module.exports = {
 };
 
 function exec(arg, label=arg) {
-    const result = execSync(arg).toString();
-    result.split("\n").forEach((line) => {
-        line = line && line.trim();
-        if (!line) {return;}
-        console.log('[' + label + '] ' + line);
-    });
+    const result = shell(arg);
+    // console.log(result);
+
+    // const result = execSync(arg).toString();
+    // result.split("\n").forEach((line) => {
+    //     line = line && line.trim();
+    //     if (!line) {return;}
+    //     console.log('[' + label + '] ' + line);
+    // });
 }
 
 function getPkg() {
@@ -96,9 +100,11 @@ function cpSkeleton() {
     const skelDir = path.resolve(__dirname, "skel");
     const files = fs.readdirSync(skelDir);
     for (const file of files) {
-        exec(`/bin/cp -ar ${escape([path.resolve(skelDir, file), "."])}`, `copying ${file}`);
+        exec(`cp -R ${escape([path.resolve(skelDir, file), "."])}`, `copying ${file}`);
     }
-    exec("mkdir -p .cache ; echo '*' > .cache/.gitignore", "prepare .cache");
+    exec(`mkdir -p .cache`);
+    exec(`touch .cache/.gitignore`);
+    exec(`echo '*' > .cache/.gitignore`, "prepare .cache");
 
     const filejs = name + ".js";
     const targetSrc = path.join("src", filejs);
